@@ -52,7 +52,7 @@
 
 ## 🖼️ Screenshots
 
-> Coming soon
+- https://www.youtube.com/watch?v=I86yY6L0d1Q
 
 ---
 
