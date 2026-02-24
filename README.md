@@ -2,6 +2,8 @@
 
 > A full-featured AI-powered English learning platform built with **Spring Boot + Vue2**. It integrates Baidu ERNIE Bot for AI conversation practice, a complete vocabulary memorization system, online exams, a community forum, and a data analytics dashboard.
 
+🌐 **Live Demo**: [http://54.66.160.70](http://54.66.160.70) *(may be offline when not in use)*
+
 ---
 
 ## ✨ Features
@@ -100,7 +102,64 @@ A utility tool that converts word book data from **JSON format to Excel (.xlsx)*
 
 ---
 
-## 🚀 Getting Started
+## 🐳 Docker Deployment
+
+The easiest way to run this project is with Docker Compose.
+
+### Prerequisites
+- Docker
+- Docker Compose v2.17+
+
+### Steps
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/EeemoTT/english-learning-system.git
+   cd english-learning-system
+   ```
+
+2. **Add your `application.yml`**
+
+   Create `backend/src/main/resources/application.yml` based on the example:
+   ```yaml
+   server:
+     port: 9090
+   spring:
+     datasource:
+       url: jdbc:mysql://mysql:3306/studyenglishdb?serverTimezone=GMT%2b8
+       username: your_db_username
+       password: your_db_password
+     redis:
+       host: redis
+       port: 6379
+   mybatis:
+     mapper-locations:
+       classpath:mapper/*.xml
+   ```
+
+3. **Build the frontend locally** (required — EC2 free tier has limited memory)
+   ```bash
+   cd frontend
+   npm install
+   npm run build
+   cd ..
+   ```
+
+4. **Start all services**
+   ```bash
+   docker-compose up -d
+   ```
+
+5. **Access the app**
+   - Frontend: `http://localhost`
+   - Backend API: `http://localhost:9090`
+   - Swagger docs: `http://localhost:9090/swagger-ui/index.html`
+
+> The `sql/data.sql` file will be automatically imported into MySQL on first startup.
+
+---
+
+## 🚀 Getting Started (Local Development)
 
 ### Prerequisites
 
@@ -120,12 +179,12 @@ A utility tool that converts word book data from **JSON format to Excel (.xlsx)*
 
 2. **Create the database**
    ```sql
-   CREATE DATABASE english_learning CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+   CREATE DATABASE studyenglishdb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
    ```
 
-3. **Import the schema**
+3. **Import the data**
    ```bash
-   mysql -u root -p english_learning < sql/schema.sql
+   mysql -u root -p studyenglishdb < sql/data.sql
    ```
 
 4. **Configure `application.yml`**
@@ -272,3 +331,8 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 📬 Contact
 
 If you have any questions or suggestions, feel free to open an issue.
+
+## Update Logs - Feb 2026
+- **Deployment**: Migrated to a full-stack Dockerized architecture.
+- **Networking**: Configured Nginx as a reverse proxy to handle `/api` requests and resolve CORS.
+- **DevOps**: Integrated `docker-compose` for streamlined environment setup.

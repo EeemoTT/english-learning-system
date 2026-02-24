@@ -1,0 +1,64 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: english-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: abc12345
+      MYSQL_DATABASE: studyenglishdb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql/data.sql:/docker-entrypoint-initdb.d/data.sql
+    networks:
+      - english-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: english-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - english-net
+
+  backend:
+    build: ./backend
+    container_name: english-backend
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./files:/app/files
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - english-net
+
+  frontend:
+    build: ./frontend
+    container_name: english-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - english-net
+
+volumes:
+  mysql_data:
+
+networks:
+  english-net:
+    driver: bridge

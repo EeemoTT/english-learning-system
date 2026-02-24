@@ -1,0 +1,29 @@
+# Mac
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# Backend
+backend/target/
+backend/src/main/resources/application.yml
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env.development
+frontend/.env.production
+frontend/npminstall-debug.log
+
+# Logs
+*.log
+npm-debug.log*
+
+# Docker
+*.env
