@@ -336,3 +336,4 @@ If you have any questions or suggestions, feel free to open an issue.
 - **Deployment**: Migrated to a full-stack Dockerized architecture.
 - **Networking**: Configured Nginx as a reverse proxy to handle `/api` requests and resolve CORS.
 - **DevOps**: Integrated `docker-compose` for streamlined environment setup.
+- **CI/CD**: Implemented GitHub Actions workflow for automated build, test, and deployment.
