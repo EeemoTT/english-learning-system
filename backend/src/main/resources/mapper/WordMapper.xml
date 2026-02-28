@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.studyEnglish.mapper.WordMapper">
+
+    <select id="findNewWordId" resultType="int" parameterType="map">
+        select w.id
+        from (word as w, target as t)
+        where t.user_id = #{userId}
+        and w.book = t.book
+        and w.id not in (select mr.word_id from memory_record as mr where mr.user_id = #{userId})
+        limit #{count}
+    </select>
+
+</mapper>
